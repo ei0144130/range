@@ -1,49 +1,42 @@
-const data = getCSV("data.csv")
+//ネットで拾ってきたcsv>>二次元配列のコードを少し加工
+//https://qiita.com/hiroyuki-n/items/5786c8fc84eb85944681
+function csv_data(dataPath) {
+	const request = new XMLHttpRequest(); // HTTPでファイルを読み込む
+    request.addEventListener('load', (event) => { // ロードさせ実行
+        const response = event.target.responseText; // 受け取ったテキストを返す
+	    csv_array(response); //csv_arrayの関数を実行
+	});
+	request.open('GET', dataPath, true); // csvのパスを指定
+	request.send();
+}
 
-$(function(){
-    $.each(data,function(i,v){
+function csv_array(data) {
+	const dataArray = []; //配列を用意
+	const dataString = data.split('\r\n'); //改行で分割
+	for (let i = 0; i < dataString.length; i++) { //あるだけループ
+		dataArray[i] = dataString[i].split(',');
+	}
+    
+    console.log(dataArray)
+    $.each(dataArray,function(i,v){
         if(i==0){
+            console.log(v)
+            $("#data-table > thead").append("<tr></tr>")
             $.each(v,function(ii,vv){
                 $("#data-table > thead > tr")
                 .append("<td id='th" + ii +"'></td>")
                 if(ii!==0){$("#th"+ii).text(vv)}
             })
-        }else{
+        }else{ 
+            $("#data-table > tbody").append("<tr id='tr" + i +"'></tr>")
             $.each(v,function(ii,vv){
-                $("#data-table > tbody > tr")
+                $("#tr"+i)
                 .append("<td>" + vv + "</td>")
             })
-        }
+        } 
     })
+}
+
+$(function(){
+    csv_data("data.csv")
 })
-
-//ネットで拾ってきたcsv>>二次元配列のコードを少し加工
-//https://uxmilk.jp/11586
-
-//CSVファイルを読み込む関数getCSV()の定義
-function getCSV(csv){
-    let result = [] //戻り値格納用
-    let req = new XMLHttpRequest(); // HTTPでファイルを読み込むためのXMLHttpRrequestオブジェクトを生成
-    req.open("get", csv, true); // アクセスするファイルを指定
-    req.send(null); // HTTPリクエストの発行
-	
-    // レスポンスが返ってきたらconvertCSVtoArray()を呼ぶ	
-    req.onload = function(){
-	    result = convertCSVtoArray(req.responseText); // 渡されるのは読み込んだCSVデータ
-    }
-    
-    return result
-}
- 
-// 読み込んだCSVデータを二次元配列に変換する関数convertCSVtoArray()の定義
-function convertCSVtoArray(str){ // 読み込んだCSVデータが文字列として渡される
-    let result = []; // 最終的な二次元配列を入れるための配列
-    let tmp = str.split("\n"); // 改行を区切り文字として行を要素とした配列を生成
- 
-    // 各行ごとにカンマで区切った文字列を要素とした二次元配列を生成
-    for(let i=0;i<tmp.length;++i){
-        result[i] = tmp[i].split(',');
-    }
-
-    return result
-}
