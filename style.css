@@ -1,0 +1,106 @@
+:root{
+    font-size: calc(2.5vh + 5px);
+    font-family:Arial, Helvetica, sans-serif;
+    --baseDark: rgb(0, 0, 0);
+    --baseLight: rgb(255, 255, 255);
+    --accentDark: rgb(0, 0, 146);
+    --accentLight: rgb(71, 172, 255);
+    --back:#e8eae9;
+    --notation:gray;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--back);
+}
+
+body{
+    display: flex;
+    flex-wrap: wrap;
+}
+body::-webkit-scrollbar{
+    display: none;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    background-color: var(--baseDark);
+    color: var(--baseLight);
+    font-weight: bold;
+    height: 2rem;
+}
+
+header> span{
+    color: var(--accentLight);
+    background-color: var(--baseDark);
+}
+
+h1{
+    width: max-content;
+    margin: auto;
+    font-size: 1rem;
+    padding-top: 1rem;
+    margin-bottom: 0.5rem;
+    border-bottom: solid 3px var(--accentDark);
+}
+
+
+table{
+    color: var(--baseDark);
+    width: 90%;
+    margin: auto;
+    text-align: end;
+    background-color: var(--baseLight);
+}
+
+table *{
+    background-color: var(--baseLight);
+    font-size: 0.8rem;
+}
+
+thead *{
+    font-size: smaller;
+    border-bottom: solid 2px var(--accentDark);
+}
+
+tbody tr td:first-child{
+    font-size: smaller;
+}
+
+tbody tr td {
+    border-bottom: dashed 1px var(--accentLight);
+}
+
+td {
+    padding: 0.5em;
+}
+
+form{
+    position: fixed;
+    background-color: hsla(0,0%,100%,60%);
+}
+
+form * {
+    padding-left: 5px;
+    background-color: transparent;
+} 
+
+form input[type=button]{
+    border: none;
+    width: 100%;
+    margin: 3px;
+    border-right: solid 3px var(--accentLight);
+    border-left: solid 3px var(--accentLight);
+    color: var(--accentDark);
+}
+
+@media (orientation:landscape){
+    table{
+        max-width: 500px;
+    }
+}
