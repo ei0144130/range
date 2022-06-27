@@ -1,22 +1,21 @@
 //ネットで拾ってきたcsv>>テーブルのコードを加工したものを即時起動
 //https://qiita.com/hiroyuki-n/items/5786c8fc84eb85944681
-function csv_data(dataPath) {
+function csv_data(dataPath,func) {
 	const request = new XMLHttpRequest(); // HTTPでファイルを読み込む
     request.addEventListener('load', (event) => { // ロードさせ実行
         const response = event.target.responseText; // 受け取ったテキストを返す
-	    csv_array(response); //csv_arrayの関数を実行
-	});
+        const dataArray = []; //配列を用意
+	    const dataString = response.split('\r\n'); //改行で分割
+	    for (let i = 0; i < dataString.length; i++) { //あるだけループ
+		    dataArray[i] = dataString[i].split(',');
+	    }
+        func(dataArray); //funcの関数を実行
+	    });
 	request.open('GET', dataPath, true); // csvのパスを指定
 	request.send();
 }
 function csv_array(data) {
-	const dataArray = []; //配列を用意
-	const dataString = data.split('\r\n'); //改行で分割
-	for (let i = 0; i < dataString.length; i++) { //あるだけループ
-		dataArray[i] = dataString[i].split(',');
-	}
-    
-    $.each(dataArray,function(i,v){
+    $.each(data,function(i,v){
         if(i==0){ 
             //ヘッダーをテーブルに
             $("#data-table > thead").append("<tr></tr>")
@@ -27,12 +26,31 @@ function csv_array(data) {
             //レコードをテーブルに
             $("#data-table > tbody").append("<tr id='tr" + i +"'></tr>")
             $.each(v,function(ii,vv){
-                $("#tr"+i).append("<td>" + vv + "</td>")
+                $("#tr"+i).append("<td><a>" + vv + "</a></td>")
             })
         } 
     })
+}  
+$(function(){$.when(
+        csv_data("data.csv", csv_array) //配列をテーブルに
+    ).done(
+        csv_data("exam.csv",csv_url) //配列からリンク生成
+    )
+})
+
+//配列からリンクを生成
+let csv_url = function(data){
+    $.each(data,function(i,v){
+        if(i!==0){//ヘッダ行を排除
+            $.each(v,function(ii,vv){
+                if(ii!==0 &&vv!==""){//レコード名と空データ以外を対象
+                    $("#tr"+i+" td:nth-child(" + (ii+1) + ") a")
+                    .attr("href",vv)
+                }
+            })
+        }  
+    }) 
 }
-$(function(){csv_data("data.csv")})
 
 //フィルターを実装
 let filterActual = function(){
@@ -44,13 +62,13 @@ let filterActual = function(){
     $("input[type='checkbox']").each(function(i,e){
         //checkedのcheckboxのvalueと同じ内容のセルを探す
         if(e.checked){ 
-            $("tbody td").each(function(ii,ee){
+            $("tbody td a").each(function(ii,ee){
                 if($(ee).html() == e.value){ 
                     //そのセルのある行をcheckedとして記録
-                    $(ee).parent().addClass("checked")
+                    $(ee).parents("tr").addClass("checked")
                 }
             }) 
-        }  
+        }   
     })
     //checkedと記録された行のみを表示
     $("tbody > tr").each(function(i,e){ 
