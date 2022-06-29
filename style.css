@@ -178,6 +178,10 @@ form input[type=button]{
     word-break: break-all;
 }
 
+#popURL, #popURL *{
+    background-color: var(--baseLight);
+}
+
 .URLtitle{
     font-size: 0.6em;
 }
