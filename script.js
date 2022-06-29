@@ -26,7 +26,7 @@ function csv_array(data) {
             //レコードをテーブルに
             $("#data-table > tbody").append("<tr id='tr" + i +"'></tr>")
             $.each(v,function(ii,vv){
-                $("#tr"+i).append("<td><a>" + vv + "</a></td>")
+                $("#tr"+i).append("<td>" + vv + "</td>")
             })
         } 
     })
@@ -44,14 +44,44 @@ let csv_url = function(data){
         if(i!==0){//ヘッダ行を排除
             $.each(v,function(ii,vv){
                 if(ii!==0 &&vv!==""){//レコード名と空データ以外を対象
-                    $("#tr"+i+" td:nth-child(" + (ii+1) + ") a")
-                    .attr("href",vv)
+                    $("#tr"+i+" td:nth-child(" + (ii+1) + ")")
+                    .attr({"data-url": vv,"class": "urlAdded"})
                 }
             })
         }  
     }) 
 }
 
+//リンクへのポップアップを生成
+let pop_url = function(title,txt){
+    let urlArray = txt.split("|")
+    let hTxt = ""
+    hTxt += "<div class='URLtitle'>" + title + "</div>"
+    urlArray.forEach((element,index) => {
+        hTxt += "<div class='URLele'>"
+                + "URLその" + (index+1) + "<br>"
+                + "<a target='_blank' href='"
+                + element + "'>" + element + "</a></div>"
+    }); 
+    $("#popURL").html(hTxt)
+}
+ 
+$(document).on("click",".urlAdded",function(){
+    let ele = $(this)
+    let title = ""
+    title += ele.parents("tr").find("td:first-child").html()
+    let txt = ""
+    txt += ele.attr("data-url")
+    pop_url(title,txt)
+    $("#popURL").show()
+    $("#mask").show()
+})
+
+$(document).on("click", "#mask", function(){
+    $(this).hide()
+    $(".mask-toggle").hide()
+})
+ 
 //フィルターを実装
 let filterActual = function(){
     //全ての行を初期化
@@ -62,7 +92,7 @@ let filterActual = function(){
     $("input[type='checkbox']").each(function(i,e){
         //checkedのcheckboxのvalueと同じ内容のセルを探す
         if(e.checked){ 
-            $("tbody td a").each(function(ii,ee){
+            $("tbody td").each(function(ii,ee){
                 if($(ee).html() == e.value){ 
                     //そのセルのある行をcheckedとして記録
                     $(ee).parents("tr").addClass("checked")

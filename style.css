@@ -81,7 +81,21 @@ td {
     padding: 0.5em;
 }
 
+td.urlAdded{
+    cursor: pointer;
+    position: relative;
+}
+
+td.urlAdded::before{
+    content: "★";
+    font-size: 0.5em;
+    position: absolute;
+    top:0;
+    right:0;
+}
+
 form{
+    z-index: 2;
     display: flex;
     flex-wrap: wrap;
     text-align: center;
@@ -89,6 +103,7 @@ form{
     position: fixed;
     bottom:0;
     background-color: var(--baseLight);
+    width: 100vw;
     box-shadow: 0 -1px 3px;
 }
 
@@ -112,10 +127,9 @@ form input[type=button]{
 }
 
 #guide{
-    margin: 3px;
+    margin: 3px 0;
     display: flex;
-    width: 50%;
-    margin-right: 50%;
+    width: calc(50% + 1px);
     font-size: 0.6em;
     justify-content: center;
 }
@@ -133,6 +147,44 @@ form input[type=button]{
     padding: 0 5px;
     border-right: solid 3px var(--accentLight);
     border-left: solid 3px var(--accentLight);
+}
+
+#info{
+    width: calc(50% - 1px);
+    font-size: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mask{
+    z-index: 10;
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: hsla(0,0%,0%,50%);
+    cursor: pointer;
+}
+
+#popURl{
+    z-index: 10;
+    display: none;
+    position: fixed;
+    width: 75vw;
+    height: 50vh;
+    top: 25vh;
+    left: 12.5vw;
+    word-break: break-all;
+}
+
+.URLtitle{
+    font-size: 0.6em;
+}
+
+.URLele{
+    margin-top: 0.5em;
+    font-size: 0.8em;
 }
 
 @media (orientation:landscape){
