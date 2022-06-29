@@ -4,7 +4,7 @@
     <title>考査の範囲</title>
     <meta charset="utf-8"> 
     <script src="jquery.min.js"></script>
-    <link rel="stylesheet" href="style.css?1733"> 
+    <link rel="stylesheet" href="style.css?1837"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="height=device-height, initial-scale=1.0">
     <meta name="description" content="">
@@ -43,16 +43,20 @@
             <input type="checkbox" id="A8" name="A8" value="8" checked>
             <label for="A8">8</label>
         </div>
-        <div>        
+        <div class="buttonDiv">
             <input type="button" id="check-all" name="check-all" value="check all">
         </div>
-        <div>
+        <div class="buttonDiv">
             <input type="button" id="uncheck-all" name="uncheck-all" value="uncheck all">
         </diV>
         <div id="guide"><a target="_blank" href="https://jfael.or.jp/institution/periodictest">
-            <div>公式過去問はこちら</div>
-        </a></div>
-        <div id="info">★つきの回を選択すると、対応する過去問へのリンクが表示されます。</div>
+            <div>公式過去問</div>
+        </a></div> 
+        <div id="allTermDiv">
+            <input type="checkbox" id="allTerm" name="allTerm" value="allTerm" checked>
+            <label id="allTermLabel" for="allTerm">フィルタ対象<br>on:直近 / off:全期</label>
+        </div>
+        <div id="info">★つきの回を選択すると、<br>対応した過去問リンクを表示</div>
     </form>
     <table id="data-table">
         <thead>
@@ -63,6 +67,6 @@
     <div id="mask"></div>
     <div id="popURL" class="mask-toggle">
     </div>
-    <script src="script.js?1733"></script>  
+    <script src="script.js?1837"></script>  
 </body> 
 </html>

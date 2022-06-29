@@ -32,9 +32,9 @@ function csv_array(data) {
     })
 }  
 $(function(){$.when(
-        csv_data("data.csv?1733", csv_array) //配列をテーブルに
+        csv_data("data.csv?1837", csv_array) //配列をテーブルに
     ).done(
-        csv_data("exam.csv?1733",csv_url) //配列からリンク生成
+        csv_data("exam.csv?1837",csv_url) //配列からリンク生成
     )
 })
 
@@ -87,17 +87,25 @@ let filterActual = function(){
     //全ての行を初期化
     $("tbody > tr").each(function(i,e){
         $(e).attr("class","") 
-    })  
+    }) 
+
+    //フィルタ対象を確認
+    let filterLatest = $("#allTerm").prop("checked")
     //各checkboxごとに処理
     $("input[type='checkbox']").each(function(i,e){
         //checkedのcheckboxのvalueと同じ内容のセルを探す
         if(e.checked){ 
-            $("tbody td").each(function(ii,ee){
-                if($(ee).html() == e.value){ 
+            $("tbody tr").each(function(tri,tre){ 
+                $(tre).find("td").each(function(ii,ee){
+                let filterCondition = $(ee).html() == e.value
+                if(filterLatest && ii !== 1){
+                    filterCondition = false   
+                }
+                if(filterCondition){  
                     //そのセルのある行をcheckedとして記録
                     $(ee).parents("tr").addClass("checked")
-                }
-            }) 
+                } 
+            })})  
         }   
     })
     //checkedと記録された行のみを表示
@@ -112,7 +120,7 @@ $(document).on("change","input[type='checkbox']",()=>filterActual())
 //check allを処理してフィルターを起動
 $(document).on("click","#check-all",function(){
     $("input[type='checkbox']").each(function(i,e){
-        e.checked = true
+        if($(e).attr("name") !== "allTerm") {e.checked = true}
     })
     filterActual()
 }) 
@@ -120,7 +128,7 @@ $(document).on("click","#check-all",function(){
 //uncheck allを処理してフィルターを起動
 $(document).on("click","#uncheck-all",function(){
     $("input[type='checkbox']").each(function(i,e){
-        e.checked = false
+        if($(e).attr("name") !== "allTerm"){e.checked = false}
     })
     filterActual()
 })  

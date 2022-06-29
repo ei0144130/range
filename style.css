@@ -116,9 +116,21 @@ form * {
     background-color: transparent;
 } 
 
-form input[type=button]{
+#allTermDiv{
+    width: 50%;
+    height: 3em;
+    display: flex;
+    font-size: 0.5em;
+    justify-content: center;
+}
+
+.buttonDiv{
+    width: 33.3%;
+}
+
+form input[type=button],#guide >a >div{
     border: none;
-    width: 100%;
+    width: 8em;
     height: 2em;
     margin: 3px;
     border-right: solid 3px var(--accentLight);
@@ -127,11 +139,11 @@ form input[type=button]{
 }
 
 #guide{
-    margin: 3px 0;
     display: flex;
-    width: calc(50% + 1px);
+    width: 33.3%;
     font-size: 0.6em;
     justify-content: center;
+    align-items: center;
 }
 
 #guide > a{
@@ -142,11 +154,7 @@ form input[type=button]{
 #guide > a > div{
     display: flex;
     align-items: center;
-    width: max-content;
-    height: 2em;
-    padding: 0 5px;
-    border-right: solid 3px var(--accentLight);
-    border-left: solid 3px var(--accentLight);
+    justify-content: center;
 }
 
 #info{
