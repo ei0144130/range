@@ -199,6 +199,13 @@ form input[type=button],#guide >a >div{
     font-size: 0.8em;
 }
 
+#tweet{
+    position: absolute;
+    top: -25px;
+    right: -55px;
+    width: max-content;
+}
+ 
 @media (orientation:landscape){
     table{
         max-width: 500px;
