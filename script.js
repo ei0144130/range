@@ -32,47 +32,74 @@ function csv_array(data) {
     })
 }  
 $(function(){$.when(
-        csv_data("data.csv?1533", csv_array) //配列をテーブルに
-    ).done(
-        csv_data("exam.csv?1533",csv_url) //配列からリンク生成
-    )
+        csv_data("data.csv?1835", csv_array) //配列をテーブルに
+    ).done(function(){
+        csv_data("exam.csv?1835",csv_url_exam) //配列から問題へのリンク生成
+        csv_data("answer.csv?1835", csv_url_ans) //配列から解答例へのリンク生成
+    })
 })
 
-//配列からリンクを生成
-let csv_url = function(data){
+//配列から問題へのリンクを生成
+let csv_url_exam = function(data){
     $.each(data,function(i,v){
         if(i!==0){//ヘッダ行を排除
             $.each(v,function(ii,vv){
                 if(ii!==0 &&vv!==""){//レコード名と空データ以外を対象
                     $("#tr"+i+" td:nth-child(" + (ii+1) + ")")
-                    .attr({"data-url": vv,"class": "urlAdded"})
+                    .attr({"data-url-exam": vv,"class": "urlAdded"})
                 }
             })
-        }  
-    }) 
+        }
+    })
+}
+//配列から解答例へのリンクを生成
+let csv_url_ans = function(data){
+    $.each(data,function(i,v){
+        if(i!==0){//ヘッダ行を排除
+            $.each(v,function(ii,vv){
+                if(ii!==0 &&vv!==""){//レコード名と空データ以外を対象
+                    $("#tr"+i+" td:nth-child(" + (ii+1) + ")")
+                    .attr({"data-url-ans": vv,"class": "urlAdded"})
+                }
+            })
+        }
+    })
 }
 
 //リンクへのポップアップを生成
-let pop_url = function(title,txt){
-    let urlArray = txt.split("|")
-    let hTxt = ""
+let pop_url = function(title,txtExam,txtAns){ 
+    if(txtExam){var urlExamArray = txtExam.split("|")}
+    if(txtAns){var urlAnsArray = txtAns.split("|")} 
+    let hTxt = "" 
+    //タイトルを設定
     hTxt += "<div class='URLtitle'>" + title + "</div>"
-    urlArray.forEach((element,index) => {
-        hTxt += "<div class='URLele'>"
-                + "URLその" + (index+1) + "<br>"
-                + "<a target='_blank' href='"
-                + element + "'>" + element + "</a></div>"
-    }); 
+    //過去問のURLを設定
+    if(txtExam){
+        urlExamArray.forEach((element,index) => {
+            hTxt += "<div class='URLele'>"
+                    + "過去問その" + (index+1) + "<br>"
+                    + "<a target='_blank' href='"
+                    + element + "'>" + element + "</a></div>"
+        })
+    }
+    //解答例のURLを設定
+    if(txtAns){
+        urlAnsArray.forEach((element,index) => {
+            hTxt += "<div class='URLele'>"
+                    + "解答例その" + (index+1) + "<br>"
+                    + "<a target='_blank' href='"
+                    + element + "'>" + element + "</a></div>"
+        })
+    } 
     $("#popURL").html(hTxt)
 }
- 
+
 $(document).on("click",".urlAdded",function(){
     let ele = $(this)
-    let title = ""
-    title += ele.parents("tr").find("td:first-child").html()
-    let txt = ""
-    txt += ele.attr("data-url")
-    pop_url(title,txt)
+    let title = ele.parents("tr").find("td:first-child").html()
+    let txtExam = ele.attr("data-url-exam")
+    let txtAns = ele.attr("data-url-ans")
+    pop_url(title,txtExam,txtAns)
     $("#popURL").show()
     $("#mask").show()
 })
