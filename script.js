@@ -32,10 +32,10 @@ function csv_array(data) {
     })
 }  
 $(function(){$.when(
-        csv_data("data.csv?2049", csv_array) //配列をテーブルに
+        csv_data("data.csv?2132", csv_array) //配列をテーブルに
     ).done(function(){
-        csv_data("exam.csv?2049",csv_url_exam) //配列から問題へのリンク生成
-        csv_data("answer.csv?2049", csv_url_ans) //配列から解答例へのリンク生成
+        csv_data("exam.csv?2132",csv_url_exam) //配列から問題へのリンク生成
+        csv_data("answer.csv?2132", csv_url_ans) //配列から解答例へのリンク生成
     })
 })
 
