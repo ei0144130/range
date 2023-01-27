@@ -53,6 +53,7 @@ let csv_url_exam = function(data){
     })
 }
 //配列から解答例へのリンクを生成
+/*
 let csv_url_ans = function(data){
     $.each(data,function(i,v){
         if(i!==0){//ヘッダ行を排除
@@ -65,6 +66,7 @@ let csv_url_ans = function(data){
         }
     })
 }
+*/
 
 //リンクへのポップアップを生成
 let pop_url = function(title,txtExam,txtAns){ 
@@ -83,6 +85,7 @@ let pop_url = function(title,txtExam,txtAns){
         })
     }
     //解答例のURLを設定
+    /*
     if(txtAns){
         urlAnsArray.forEach((element,index) => {
             hTxt += "<div class='URLele'>"
@@ -90,7 +93,8 @@ let pop_url = function(title,txtExam,txtAns){
                     + "<a target='_blank' href='"
                     + element + "'>" + element + "</a></div>"
         })
-    } 
+    }
+    */
     $("#popURL").html(hTxt)
 }
 
